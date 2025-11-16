@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="25.659" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2024-07-08T10:18:01" tests="0" file="cypress\integration\tests\TC_002_CreateJob.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Create Job" timestamp="2024-07-08T10:18:01" tests="1" time="25.654" failures="0">
+    <testcase name="Create Job Just create a new job in calendar" time="22.886" classname="Just create a new job in calendar">
+    </testcase>
+  </testsuite>
+</testsuites>

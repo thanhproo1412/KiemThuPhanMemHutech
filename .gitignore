@@ -1,0 +1,6 @@
+node_modules
+cypress/results/
+cypress/fixtures/testData/PrivateData.json
+cypress/fixtures/actualData
+cypress/screenshots/
+/cypress/videos
