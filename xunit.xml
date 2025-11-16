@@ -1,3 +1,0 @@
-<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Mon, 08 Jul 2024 10:43:04 GMT" time="28.59">
-<testcase classname="Create Job" name="Just create a new job in calendar" time="26.706"/>
-</testsuite>
