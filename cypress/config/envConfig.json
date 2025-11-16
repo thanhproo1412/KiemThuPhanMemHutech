@@ -1,0 +1,20 @@
+{
+  "qa": {
+    "baseUrl": "https://automationexercise.com",
+    "apiUrl": "https://automationexercise.com/api",
+    "username": "qauser",
+    "password": "qapass123"
+  },
+  "uat": {
+    "baseUrl": "https://uat.automationexercise.com",
+    "apiUrl": "https://uat.automationexercise.com/api",
+    "username": "uatuser",
+    "password": "uatpass123"
+  },
+  "prod": {
+    "baseUrl": "https://automationexercise.com",
+    "apiUrl": "https://automationexercise.com/api",
+    "username": "produser",
+    "password": "prodpass123"
+  }
+}
