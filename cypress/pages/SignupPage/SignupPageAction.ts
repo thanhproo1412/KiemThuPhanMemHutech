@@ -1,6 +1,7 @@
 import SignupPage from './SignupPage';
 import { IPersonalInfoData, IAddressInfoData } from './SignupPage.types';
 import utils from '../../support/utils';
+import { UserData } from '../../types/UserData';
 
 
 export default class SignupPageAction {
@@ -37,10 +38,19 @@ export default class SignupPageAction {
     this.page.getAddress1Input().type(data.address1);
     if (data.address2) this.page.getAddress2Input().type(data.address2);
     this.page.getCountrySelect().select(data.country);
-    this.page.getStateInput().type(data.state);
+    if (data.state) this.page.getStateInput().type(data.state);
     this.page.getCityInput().type(data.city);
     this.page.getZipcodeInput().type(data.zipcode);
     this.page.getMobileNumberInput().type(data.mobileNumber);
+  }
+
+  fillAllInfo(userData: UserData) {
+    this.fillPersonalInfo({
+      ...userData.personalInfo,
+      name: userData.username, // username nằm ngoài personalInfo
+    });
+
+    this.fillAddressInfo(userData.addressInfo);
   }
 
   // Submit form

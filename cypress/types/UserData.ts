@@ -1,8 +1,6 @@
-export type TitleOption = 'Mr' | 'Mrs';
-
-export interface IPersonalInfoData {
-  title?: TitleOption;
-  name: string;
+// types/UserData.ts
+export interface PersonalInfo {
+  title: 'Mr' | 'Mrs';
   password: string;
   day?: string;
   month?: string;
@@ -11,7 +9,7 @@ export interface IPersonalInfoData {
   optin?: boolean;
 }
 
-export interface IAddressInfoData {
+export interface AddressInfo {
   firstName: string;
   lastName: string;
   company?: string;
@@ -22,4 +20,10 @@ export interface IAddressInfoData {
   city: string;
   zipcode: string;
   mobileNumber: string;
+}
+
+export interface UserData {
+  username: string;
+  personalInfo: PersonalInfo;
+  addressInfo: AddressInfo;
 }

@@ -7,7 +7,6 @@ const configForEnv = envConfig[env];
 
 export default defineConfig({
     e2e: {
-        supportFile: false,
         baseUrl: configForEnv.baseUrl,
         setupNodeEvents(on, config) {
             config.env = {
