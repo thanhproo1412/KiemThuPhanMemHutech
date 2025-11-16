@@ -1,4 +1,6 @@
 /// <reference types="cypress" />
+/// <reference path="./commands.ts" />
+
 
 declare namespace Cypress {
     interface Chainable<Subject = any> {
