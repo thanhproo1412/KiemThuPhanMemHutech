@@ -1,53 +1,22 @@
 export default class LoginPage {
-    // -----------------------
-    // Login Form
-    // -----------------------
-    getLoginForm = () => cy.get('div.login-form');
-    getLoginEmail = () => cy.get('input[data-qa="login-email"]');
-    getLoginPassword = () => cy.get('input[data-qa="login-password"]');
-    getLoginButton = () => cy.get('button[data-qa="login-button"]');
 
-    // Atomic Actions - Login
-    enterLoginEmail(email: string) {
-        this.getLoginEmail().clear().type(email);
-    }
+    // Elements for Signup / Registration
+    getNewUserSignupText() { return cy.get('.signup-form h2'); }
+    getSignupName() { return cy.get('input[data-qa="signup-name"]'); }
+    getSignupEmail() { return cy.get('input[data-qa="signup-email"]'); }
+    getSignupButton() { return cy.get('button[data-qa="signup-button"]'); }
+    getAccountInfoTitle() { return cy.contains('Enter Account Information'); }
 
-    enterLoginPassword(password: string) {
-        this.getLoginPassword().clear().type(password);
-    }
 
-    clickLoginButton() {
-        this.getLoginButton().click();
-    }
-
-    // -----------------------
-    // Signup Form
-    // -----------------------
-    getSignupForm = () => cy.get('div.signup-form');
-    getSignupName = () => cy.get('input[data-qa="signup-name"]');
-    getSignupEmail = () => cy.get('input[data-qa="signup-email"]');
-    getSignupButton = () => cy.get('button[data-qa="signup-button"]');
-
-    // Atomic Actions - Signup
+    // =================================== Atomic Actions ===================================
     enterSignupName(name: string) {
-        this.getSignupName().clear().type(name);
+        this.getSignupName().type(name);
     }
-
     enterSignupEmail(email: string) {
-        this.getSignupEmail().clear().type(email);
+        this.getSignupEmail().type(email);
     }
-
     clickSignupButton() {
-        this.getSignupButton().click();
+        this.getSignupButton().should('be.visible').click();
     }
 
-    signup(name: string, email: string) {
-        this.enterSignupName(name);
-        this.enterSignupEmail(email);
-        this.clickSignupButton();
-    }
-
-    verifySignupFormVisible() {
-        this.getSignupForm().should('be.visible');
-    }
 }
