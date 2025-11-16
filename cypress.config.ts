@@ -17,11 +17,15 @@ export default defineConfig({
       allureCypress(on, config, {
         resultsDir: "allure-results",
       });
+      module.exports = {
+        projectId: "89fqzh",
+      }
       return config;
     },
     specPattern: 'cypress/e2e/**/*.cy.{js,ts,jsx,tsx}',
     supportFile: 'cypress/support/e2e.ts'
   },
   video: false,
-  screenshotOnRunFailure: true
+  screenshotOnRunFailure: true,
+
 });
