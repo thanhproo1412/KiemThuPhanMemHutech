@@ -7,8 +7,9 @@ export default class NavBarAction {
   clickNavItem(key: NavItemKey) {
     this.page.getNavItem(key).should('be.visible').click();
 
-    if (key !== 'loggedInAs') {
-      cy.url().should('include', this.page['navMap']['signupLogin']); // Logout is navigating to login page
+    // Skip URL check for loggedInAs and logout (logout redirects to login page)
+    if (key !== 'loggedInAs' && key !== 'logout') {
+      cy.url().should('include', this.page['navMap'][key]);
     }
   }
 

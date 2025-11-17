@@ -6,6 +6,9 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
