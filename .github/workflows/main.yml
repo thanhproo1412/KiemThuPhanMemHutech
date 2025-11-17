@@ -1,14 +1,16 @@
 name: Cypress Tests
 
 on:
-  workflow_dispatch: # Cho phép trigger bằng nút
+  workflow_dispatch:
 
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        containers: [1, 2]
+        containers: [1, 2]   # 2 workers chạy song song
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,14 +23,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests
-        run: npm run cypress:run:qa
+      - name: Run Cypress tests (parallel)
+        run: npm run cypress:run:qa -- --record --parallel --ci-build-id ${{ github.run_id }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
+
+  # ---------------------------------------
+  # Job tổng hợp báo cáo (chạy sau tất cả worker)
+  # ---------------------------------------
+  generate-allure:
+    needs: cypress-run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Generate Allure report
         run: npm run allure:generate
-    
+
       - name: Upload Allure report
         uses: actions/upload-artifact@v4
         with:
