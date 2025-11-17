@@ -1,7 +1,7 @@
 import SignupPage from './SignupPage';
 import { IPersonalInfoData, IAddressInfoData } from './SignupPage.types';
 import utils from '../../support/utils';
-import { UserData } from '../../types/UserData';
+import { UserDataType } from '../../types/UserDataType';
 
 
 export default class SignupPageAction {
@@ -44,16 +44,15 @@ export default class SignupPageAction {
     this.page.getMobileNumberInput().type(data.mobileNumber);
   }
 
-  fillAllInfo(userData: UserData) {
+  fillAllInfo(userData: UserDataType) {
     this.fillPersonalInfo({
       ...userData.personalInfo,
-      name: userData.username, // username nằm ngoài personalInfo
+      name: userData.username,
     });
 
     this.fillAddressInfo(userData.addressInfo);
   }
 
-  // Submit form
   submit() {
     this.page.getCreateAccountButton().click();
   }

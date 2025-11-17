@@ -1,0 +1,23 @@
+{
+    "qa": {
+        "defaultUser": {
+            "username": "testUser",
+            "email": "testuser1763392836033@yopmail.com",
+            "password": "Test@1234"
+        }
+    },
+    "uat": {
+        "defaultUser": {
+            "username": "uatUser",
+            "email": "uatUser@yopmail.com",
+            "password": "Uat@1234"
+        }
+    },
+    "prod": {
+        "defaultUser": {
+            "username": "prodUser",
+            "email": "prodUser@yopmail.com",
+            "password": "Prod@1234"
+        }
+    }
+}

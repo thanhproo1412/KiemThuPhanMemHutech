@@ -22,8 +22,10 @@ export interface AddressInfo {
   mobileNumber: string;
 }
 
-export interface UserData {
+export interface UserDataType {
   username: string;
+  email?: string;
+  password?: string;
   personalInfo: PersonalInfo;
   addressInfo: AddressInfo;
 }

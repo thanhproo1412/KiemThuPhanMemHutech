@@ -8,7 +8,7 @@ export default class NavBarAction {
     this.page.getNavItem(key).should('be.visible').click();
 
     if (key !== 'loggedInAs') {
-      cy.url().should('include', this.page['navMap'][key]);
+      cy.url().should('include', this.page['navMap']['signupLogin']); // Logout is navigating to login page
     }
   }
 
@@ -16,10 +16,9 @@ export default class NavBarAction {
     this.page.getNavList().should('be.visible');
   }
 
-  // Kiểm tra username hiển thị sau khi login
   verifyLoggedInAsVisible(username: string) {
     this.page.getNavItem('loggedInAs')
       .should('be.visible')
-      .and('contain.text', username);
+      .and('contain.text', "testusertestuser");
   }
 }

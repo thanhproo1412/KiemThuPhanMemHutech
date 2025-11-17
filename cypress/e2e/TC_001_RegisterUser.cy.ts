@@ -2,7 +2,7 @@ import NavBarAction from '../pages/NavBar/NavBarAction';
 import AccountCreatedPageAction from '../pages/AccountCreatedPage/AccountCreatedPageAction';
 import AccountDeletePageAction from '../pages/AccountDeletePage/AccountDeletePageAction';
 import userData from '../fixtures/TC_001_RegisterUser/TC_001_RegisterUserData.json';
-import type { UserData } from '../types/UserData';
+import type { UserDataType } from '../types/UserDataType';
 import * as allure from "allure-js-commons";
 
 describe('Registration Flow Test', () => {
@@ -20,7 +20,7 @@ describe('Registration Flow Test', () => {
     allure.tags('registration', 'delete-account', 'positive');
 
     allure.step('Register user', async () => {
-      cy.register(userData as unknown as UserData).then(email => cy.log('Registered email: ' + email));
+      cy.register(userData as unknown as UserDataType).then(email => cy.log('Registered email: ' + email));
     });
 
     allure.step('Delete account', async () => {
