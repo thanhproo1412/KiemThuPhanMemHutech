@@ -1,5 +1,20 @@
+import HomePage from './HomePage';
 
-import homePage from "./homePage";
+export default class HomePageAction {
+    private page: HomePage;
 
-export default class homePageAction {
+    constructor() {
+        this.page = new HomePage();
+    }
+
+    verifyHomePageVisible() {
+        cy.title().should('include', 'Automation Exercise');
+
+        this.page.getLogo().should('be.visible');
+
+        this.page.getHomeNavButton().should('be.visible')
+            .and('contain.text', 'Home');
+
+        this.page.getSliderCarousel().should('be.visible');
+    }
 }

@@ -23,14 +23,14 @@ export default class LoginPageAction {
         this.page.clickLoginButton();
     }
 
-    verifyLoginErrorVisible() {
-        this.page.getLoginErrorMessage().should('be.visible');
-        this.page.getLoginErrorMessage().should('contain.text', 'Your email or password is incorrect!');
-    }
-
     logout() {
         this.navAction.clickNavItem('logout');
         this.verifyLoginPageVisible();
+    }
+
+    verifyLoginErrorVisible() {
+        this.page.getLoginErrorMessage().should('be.visible');
+        this.page.getLoginErrorMessage().should('contain.text', 'Your email or password is incorrect!');
     }
 
     verifyLoginPageVisible() {
@@ -38,6 +38,16 @@ export default class LoginPageAction {
         this.page.getLoginEmail().should('be.visible');
         this.page.getLoginPassword().should('be.visible');
         this.page.getLoginButton().should('be.visible');
+    }
+
+    verifyEmailAlreadyExistErrorVisible() {
+        this.page.getEmailAlreadyExistError().should('be.visible')
+            .and('contain.text', 'Email Address already exist!');
+    }
+
+    verifyNewUserSignupVisible() {
+        this.page.getNewUserSignupHeading().should('be.visible')
+            .and('contain.text', 'New User Signup!');
     }
 
 }

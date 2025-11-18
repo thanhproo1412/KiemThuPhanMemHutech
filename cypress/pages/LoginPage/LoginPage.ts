@@ -1,11 +1,14 @@
 export default class LoginPage {
 
+    getNewUserSignupHeading() { return cy.get('.signup-form h2'); }
+
     // ================= Signup Elements =================
     getNewUserSignupText() { return cy.get('.signup-form h2'); }
     getSignupName() { return cy.get('input[data-qa="signup-name"]'); }
     getSignupEmail() { return cy.get('input[data-qa="signup-email"]'); }
     getSignupButton() { return cy.get('button[data-qa="signup-button"]'); }
     getAccountInfoTitle() { return cy.contains('Enter Account Information'); }
+    getEmailAlreadyExistError() { return cy.get('p:contains("Email Address already exist!")'); }
 
     // ================= Login Elements =================
     getLoginFormTitle() { return cy.get('.login-form h2'); }

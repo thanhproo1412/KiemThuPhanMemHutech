@@ -1,26 +1,14 @@
+export default class HomePage {
 
-import { CommonPage } from '../commonPage/commonPage';
-
-export default class homePage {
-    private common = new CommonPage();
-
-    signupLoginBtn = 'a[href="/login"]';
-    loggedInAs = (username: string) => `//*[contains(text(),'Logged in as ${username}')]`;
-    deleteAccountBtn = 'a[href="/delete_account"]';
-
-    clickSignupLogin() {
-        this.common.click(this.signupLoginBtn);
+    getLogo() {
+        return cy.get('.logo img[alt="Website for automation practice"]');
     }
 
-    verifyHomePageVisible() {
-        this.common.shouldBeVisible('body'); // cơ bản verify home page load
+    getSliderCarousel() {
+        return cy.get('#slider-carousel');
     }
 
-    verifyLoggedIn(username: string) {
-        this.common.shouldBeVisible(this.loggedInAs(username));
-    }
-
-    clickDeleteAccount() {
-        this.common.click(this.deleteAccountBtn);
+    getHomeNavButton() {
+        return cy.get('.shop-menu ul.nav.navbar-nav li a[href="/"]');
     }
 }
