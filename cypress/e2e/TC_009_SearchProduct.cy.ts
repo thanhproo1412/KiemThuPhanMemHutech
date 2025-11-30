@@ -5,7 +5,7 @@ import ProductsPageAction from "../pages/ProductsPage/ProductsPageAction";
 describe("TC_009 – Search Product Functionality", () => {
 
     const homePage = new HomePageAction();
-    const navBar = new NavBarAction();
+    const navBarAction = new NavBarAction();
     const productsAction = new ProductsPageAction();
 
     beforeEach(() => {
@@ -18,7 +18,7 @@ describe("TC_009 – Search Product Functionality", () => {
         homePage.verifyHomePageVisible();
 
         // 4. Click Products
-        navBar.clickNavItem("products");
+        navBarAction.clickNavItem("products");
 
         // 5. Verify All Products page visible
         productsAction.verifyAllProductsPageVisible();

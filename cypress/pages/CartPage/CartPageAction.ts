@@ -32,4 +32,15 @@ export default class CartPageAction {
         this.page.getCartItemQuantity(index).should('contain.text', quantity);
     }
 
+    // Delete product by index
+    deleteProductByIndex(index: number) {
+        this.page.getDeleteButtonByIndex(index).click();
+    }
+
+    // Verify cart is empty
+    verifyCartIsEmpty() {
+        this.page.getEmptyCartMessage().should('be.visible')
+            .and('contain.text', 'Cart is empty!');
+    }
+
 }

@@ -32,12 +32,18 @@ export default class ProductDetailPageAction {
         this.page.getContinueShoppingButton().click();
         this.page.getCartModal().should('not.be.visible');
     }
-
+    
     closeCheckoutModalIfVisible() {
-        this.page.getCheckoutModal().then($modal => {
-            if ($modal.is(':visible')) {
-                this.page.getContinueOnCartButton().click();
-                this.page.getCheckoutModal().should('not.be.visible');
+        cy.get('body').then($body => {
+            // Check if checkout modal exists
+            if ($body.find('#checkoutModal').length > 0) {
+                // Only click if modal is visible
+                cy.get('#checkoutModal').then($modal => {
+                    if ($modal.is(':visible')) {
+                        cy.get('.close-checkout-modal').click();
+                        cy.get('#checkoutModal').should('not.be.visible');
+                    }
+                });
             }
         });
     }

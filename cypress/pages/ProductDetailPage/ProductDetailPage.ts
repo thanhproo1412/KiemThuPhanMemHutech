@@ -16,6 +16,4 @@ export default class ProductDetailPage {
     getContinueOnCartButton() { return cy.get('.close-checkout-modal'); }
     getProceedToCheckoutButton() { return cy.get('a.check_out'); }
 
-
-
 }

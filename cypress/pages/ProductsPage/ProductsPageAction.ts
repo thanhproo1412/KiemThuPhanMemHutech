@@ -17,6 +17,10 @@ export default class ProductsPageAction {
         this.page.getFirstViewProductButton().click();
     }
 
+    clickViewProduct(index: number) {
+        this.page.getViewProductButtonByIndex(index).click();
+    }
+
     searchProduct(productName: string) {
         this.page.getSearchInput().type(productName);
         this.page.getSearchButton().click();

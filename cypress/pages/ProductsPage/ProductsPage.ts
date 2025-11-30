@@ -10,5 +10,8 @@ export default class ProductsPage {
     getAddToCartButton(index: number) { return this.getProductsList().eq(index).contains('Add to cart'); }
     getContinueShoppingButton() { return cy.get('.btn-success.close-modal'); }
     getViewCartButton() { return cy.get('a[href="/view_cart"]'); }
+    getViewProductButtonByIndex(index: number) {
+        return this.getProductsList().eq(index).contains('View Product');
+    }
 
 }

@@ -20,6 +20,12 @@ export default class NavBarAction {
   verifyLoggedInAsVisible(username: string) {
     this.page.getNavItem('loggedInAs')
       .should('be.visible')
-      .and('contain.text', "testusertestuser");
+      .invoke('text')
+      .then(text => {
+        const cleanText = text.replace(/\s/g, '').toLowerCase();
+        const expectedText = `Loggedinas${username}${username}`.toLowerCase();
+        expect(cleanText).to.contain(expectedText);
+      });
   }
+
 }
