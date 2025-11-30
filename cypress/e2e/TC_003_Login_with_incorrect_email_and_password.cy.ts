@@ -3,7 +3,7 @@ import LoginPageAction from '../pages/LoginPage/LoginPageAction';
 import * as allure from 'allure-js-commons';
 
 describe('Login Flow Test - Negative', () => {
-  const navAction = new NavBarAction();
+  const navBarAction = new NavBarAction();
   const loginPageAction = new LoginPageAction();
 
   beforeEach(() => cy.visit('/'));
@@ -16,7 +16,7 @@ describe('Login Flow Test - Negative', () => {
     allure.tags('login', 'negative', 'invalid-credentials');
 
     allure.step('Navigate to login page', async () => {
-      navAction.clickNavItem('signupLogin');
+      navBarAction.clickNavItem('signupLogin');
     });
 
     allure.step('Enter incorrect email and password', async () => {

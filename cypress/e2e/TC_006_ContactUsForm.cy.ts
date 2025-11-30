@@ -4,9 +4,9 @@ import ContactUsPageAction from '../pages/ContactUsPage/ContactUsPageAction';
 import contactData from '../fixtures/TC_006_ContactUsForm/TC_006_ContactUsForm.json';
 import * as allure from "allure-js-commons";
 
-describe('Contact Us Flow Test', () => {
+describe('Contact Us Flow Test', { tags: ['@smoke', '@critical'] }, () => {
     const homePageAction = new HomePageAction();
-    const navAction = new NavBarAction();
+    const navBarAction = new NavBarAction();
     const contactUsPageAction = new ContactUsPageAction();
 
     beforeEach(() => {
@@ -27,7 +27,7 @@ describe('Contact Us Flow Test', () => {
 
         // 4. Click on 'Contact Us' button
         allure.step('Click on Contact Us button', async () => {
-            navAction.clickNavItem('contactUs');
+            navBarAction.clickNavItem('contactUs');
         });
 
         // 5. Verify 'GET IN TOUCH' is visible
@@ -44,7 +44,7 @@ describe('Contact Us Flow Test', () => {
         allure.step('Upload file', async () => {
             contactUsPageAction.uploadFile(contactData.fileName);
         });
-        
+
         // 8. Click 'Submit' button
         allure.step("Click 'Submit' button", async () => {
             contactUsPageAction.clickSubmitButton();
@@ -54,7 +54,7 @@ describe('Contact Us Flow Test', () => {
         allure.step('Accept confirmation alert (Click OK)', async () => {
             cy.on('window:confirm', (str) => {
                 expect(str).to.equal('Press OK to proceed!');
-                return true; 
+                return true;
             });
         });
 
@@ -66,7 +66,7 @@ describe('Contact Us Flow Test', () => {
         // 11. Click 'Home' button and verify that landed to home page successfully
         allure.step("Click 'Home' button and verify landing on Home Page", async () => {
             contactUsPageAction.clickHomeButton();
-            homePageAction.verifyHomePageVisible(); 
+            homePageAction.verifyHomePageVisible();
         });
     });
 });

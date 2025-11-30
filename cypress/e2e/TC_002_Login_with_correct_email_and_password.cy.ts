@@ -1,16 +1,17 @@
+
 import NavBarAction from '../pages/NavBar/NavBarAction';
 import * as allure from 'allure-js-commons';
 
 describe('Login Flow Test', () => {
-  const navAction = new NavBarAction();
+  const navBarAction = new NavBarAction();
 
   beforeEach(() => cy.visit('/'));
 
-  it('Should login and delete user successfully', () => {
+  it('Should login and delete user successfully', { tags: '@smoke' }, () => {
 
     // Step 1-4: Navigate and verify login page
     allure.step('Navigate to login page', async () => {
-      navAction.clickNavItem('signupLogin');
+      navBarAction.clickNavItem('signupLogin');
     });
 
     // Step 5-7: Enter credentials and login
@@ -20,7 +21,7 @@ describe('Login Flow Test', () => {
 
     // Step 8-10: Delete account
     // allure.step('Delete account after login', async () => {
-    //   navAction.clickNavItem('deleteAccount');
+    //   navBarAction.clickNavItem('deleteAccount');
     //   accountDeletePageAction.verifyAccountDeleteVisible();
     //   accountDeletePageAction.clickContinueButton();
     // });

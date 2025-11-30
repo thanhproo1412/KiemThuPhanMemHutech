@@ -10,7 +10,7 @@ const existingUserData = {
 
 describe('Registration Flow Test', () => {
   const homePageAction = new HomePageAction();
-  const navAction = new NavBarAction();
+  const navBarAction = new NavBarAction();
   const loginPageAction = new LoginPageAction();
 
   beforeEach(() => {
@@ -31,7 +31,7 @@ describe('Registration Flow Test', () => {
 
     // 4. Click on 'Signup / Login' button
     allure.step('Click on Signup / Login button', async () => {
-      navAction.clickNavItem('signupLogin');
+      navBarAction.clickNavItem('signupLogin');
     });
 
     // 5. Verify 'New User Signup!' is visible

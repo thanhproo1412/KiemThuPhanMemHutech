@@ -9,7 +9,7 @@ import usersData from '../fixtures/users.json';
 
 // REGISTER
 Cypress.Commands.add('register', (UserDataType: UserDataType): Cypress.Chainable<string> => {
-    const navAction = new NavBarAction();
+    const navBarAction = new NavBarAction();
     const loginPageAction = new LoginPageAction();
     const signupPageAction = new SignupPageAction();
     const accountCreatedPageAction = new AccountCreatedPageAction();
@@ -23,13 +23,13 @@ Cypress.Commands.add('register', (UserDataType: UserDataType): Cypress.Chainable
     allure.tags('registration', 'delete-account', 'positive');
 
     allure.step('Register user', async () => {
-        navAction.clickNavItem('signupLogin');
+        navBarAction.clickNavItem('signupLogin');
         loginPageAction.signup(UserDataType.username, email);
         signupPageAction.fillAllInfo(UserDataType);
         signupPageAction.submit();
         accountCreatedPageAction.verifyAccountCreatedVisible();
         accountCreatedPageAction.clickContinueButton();
-        navAction.verifyLoggedInAsVisible(UserDataType.username);
+        navBarAction.verifyLoggedInAsVisible(UserDataType.username);
     });
 
     return cy.wrap(email);
@@ -38,15 +38,15 @@ Cypress.Commands.add('register', (UserDataType: UserDataType): Cypress.Chainable
 // LOGIN
 Cypress.Commands.add('login', (): Cypress.Chainable<string> => {
     const env = Cypress.env('ENV') || 'qa';
-    const navAction = new NavBarAction();
+    const navBarAction = new NavBarAction();
     const loginPageAction = new LoginPageAction();
 
     const user: UserDataType = usersData[env].defaultUser;
 
     allure.step(`Login as ${user.username}`, async () => {
-        navAction.clickNavItem('signupLogin');
+        navBarAction.clickNavItem('signupLogin');
         loginPageAction.login(user.email!, user.password);
-        navAction.verifyLoggedInAsVisible(user.username);
+        navBarAction.verifyLoggedInAsVisible(user.username);
     });
 
     return cy.wrap(user.username);

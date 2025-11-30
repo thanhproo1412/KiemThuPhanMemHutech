@@ -1,6 +1,8 @@
 import { defineConfig } from 'cypress';
 import envConfig from './cypress/config/envConfig.json';
 import { allureCypress } from "allure-cypress/reporter";
+import { plugin as cypressGrepPlugin } from '@cypress/grep/plugin'
+
 
 const env = (process.env.ENV || 'qa') as keyof typeof envConfig;
 const configForEnv = envConfig[env];
@@ -8,7 +10,10 @@ const configForEnv = envConfig[env];
 export default defineConfig({
   e2e: {
     baseUrl: configForEnv.baseUrl,
+    viewportWidth: 1920,
+    viewportHeight: 1080,
     setupNodeEvents(on, config) {
+      cypressGrepPlugin(config)
       config.env = {
         apiUrl: configForEnv.apiUrl,
         username: configForEnv.username,

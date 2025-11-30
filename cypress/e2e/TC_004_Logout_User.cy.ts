@@ -2,14 +2,14 @@ import LoginPageAction from '../pages/LoginPage/LoginPageAction';
 import NavBarAction from '../pages/NavBar/NavBarAction';
 
 describe('Logout Flow Test', () => {
-  const navAction = new NavBarAction();
+  const navBarAction = new NavBarAction();
   const loginAction = new LoginPageAction();
 
   beforeEach(() => cy.visit('/'));
 
   it('Should login and logout user successfully', () => {
     // Step 1-4: Navigate to login page
-    navAction.clickNavItem('signupLogin');
+    navBarAction.clickNavItem('signupLogin');
 
     // Step 5-8: Login with valid credentials - verify login success
     cy.login();

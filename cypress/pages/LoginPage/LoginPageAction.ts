@@ -4,11 +4,11 @@ import NavBarAction from "./../NavBar/NavBarAction";
 export default class LoginPageAction {
 
     private page: LoginPage;
-    private navAction: NavBarAction;
+    private navBarAction: NavBarAction;
 
     constructor() {
         this.page = new LoginPage();
-        this.navAction = new NavBarAction();
+        this.navBarAction = new NavBarAction();
     }
 
     signup(name: string, email: string) {
@@ -24,7 +24,7 @@ export default class LoginPageAction {
     }
 
     logout() {
-        this.navAction.clickNavItem('logout');
+        this.navBarAction.clickNavItem('logout');
         this.verifyLoginPageVisible();
     }
 

@@ -6,7 +6,7 @@ import type { UserDataType } from '../types/UserDataType';
 import * as allure from "allure-js-commons";
 
 describe('Registration Flow Test', () => {
-  const navAction = new NavBarAction();
+  const navBarAction = new NavBarAction();
   const accountCreatedPageAction = new AccountCreatedPageAction();
   const accountDeletePageAction = new AccountDeletePageAction();
 
@@ -24,7 +24,7 @@ describe('Registration Flow Test', () => {
     });
 
     // allure.step('Delete account', async () => {
-    //   navAction.clickNavItem('deleteAccount');
+    //   navBarAction.clickNavItem('deleteAccount');
     //   accountDeletePageAction.verifyAccountDeleteVisible();
     //   accountDeletePageAction.clickContinueButton();
     // });
