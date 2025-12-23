@@ -3,9 +3,12 @@ name: Cypress Tests + Allure Report
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write   # Required for pushing to gh-pages
+
 jobs:
   # -------------------------------------------------
-  # JOB 1: RUN CYPRESS (PARALLEL + RECORD)
+  # JOB 1: RUN CYPRESS TESTS (PARALLEL)
   # -------------------------------------------------
   cypress-run:
     runs-on: ubuntu-latest
@@ -22,24 +25,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests (parallel + record)
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           command: npm run cypress:run:qa
           record: true
           parallel: true
-          ci-build-id: ${{ github.run_id }}
           group: container-${{ matrix.containers }}
+          ci-build-id: ${{ github.run_id }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      # 🔥 Mỗi container upload artifact RIÊNG
-      - name: Upload allure results
+      - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -47,7 +49,7 @@ jobs:
           path: allure-results
 
   # -------------------------------------------------
-  # JOB 2: GENERATE + DEPLOY ALLURE REPORT
+  # JOB 2: GENERATE & DEPLOY ALLURE REPORT
   # -------------------------------------------------
   generate-allure:
     needs: cypress-run
@@ -58,21 +60,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ⬇️ Download TẤT CẢ allure-results
-      - name: Download all allure results
+      - name: Download all Allure artifacts
         uses: actions/download-artifact@v4
         with:
           path: allure-results
 
-      # Gộp các folder allure-results-* lại
-      - name: Merge allure results
+      - name: Merge Allure results
         run: |
           mkdir -p merged-results
-          find allure-results -type f -exec cp {} merged-results \;
+          for dir in allure-results/*; do
+            cp -r "$dir"/* merged-results/ || true
+          done
           rm -rf allure-results
           mv merged-results allure-results
 
-      # Load history (BONUS)
+      # 🔁 Load previous Allure history (optional but recommended)
       - name: Load Allure history
         run: |
           git fetch origin gh-pages || true
@@ -81,7 +83,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: 20
 
       - name: Install dependencies
         run: npm ci
@@ -90,7 +92,7 @@ jobs:
         run: npm run allure:generate
 
       - name: Deploy Allure report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
