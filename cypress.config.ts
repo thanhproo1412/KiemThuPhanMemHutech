@@ -3,7 +3,6 @@ import envConfig from './cypress/config/envConfig.json';
 import { allureCypress } from "allure-cypress/reporter";
 import { plugin as cypressGrepPlugin } from '@cypress/grep/plugin'
 
-
 const env = (process.env.ENV || 'qa') as keyof typeof envConfig;
 const configForEnv = envConfig[env];
 
@@ -14,23 +13,27 @@ export default defineConfig({
     viewportWidth: 1920,
     viewportHeight: 1080,
     setupNodeEvents(on, config) {
-      cypressGrepPlugin(config)
+      cypressGrepPlugin(config);
+
       config.env = {
         apiUrl: configForEnv.apiUrl,
         username: configForEnv.username,
         password: configForEnv.password,
       };
+
       allureCypress(on, config, {
         resultsDir: "allure-results",
       });
-      module.exports = {
-      }
+
       return config;
     },
     specPattern: 'cypress/e2e/**/*.cy.{js,ts,jsx,tsx}',
     supportFile: 'cypress/support/e2e.ts'
   },
-  video: false,
-  screenshotOnRunFailure: true,
 
+  video: true,
+  videosFolder: "cypress/videos",
+  videoCompression: true,
+  // videoUploadOnPasses: false, // chỉ giữ video khi FAIL
+  screenshotOnRunFailure: true,
 });
