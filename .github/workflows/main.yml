@@ -1,19 +1,19 @@
-name: Cypress Tests
+name: Cypress Tests + Allure Report
 
 on:
   workflow_dispatch:
 
 jobs:
-  # ---------------------------------------
-  # Job chạy Cypress song song
-  # ---------------------------------------
+  # -------------------------------------------------
+  # JOB 1: RUN CYPRESS (PARALLEL + RECORD)
+  # -------------------------------------------------
   cypress-run:
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        containers: [1, 2]   # 2 workers song song
+        containers: [1, 2]
 
     steps:
       - name: Checkout repository
@@ -23,15 +23,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20"
-
-      # Cache npm để CI chạy nhanh hơn
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm ci
@@ -45,19 +36,18 @@ jobs:
           ci-build-id: ${{ github.run_id }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_ENV: qa
 
-      # Upload Allure results (dù test PASS hay FAIL)
-      - name: Upload Allure results
+      # Lưu allure-results để job sau dùng
+      - name: Upload allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: allure-results
 
-  # ---------------------------------------
-  # Job tổng hợp báo cáo Allure
-  # ---------------------------------------
+  # -------------------------------------------------
+  # JOB 2: GENERATE + PUBLISH ALLURE REPORT
+  # -------------------------------------------------
   generate-allure:
     needs: cypress-run
     if: always()
@@ -67,35 +57,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "20"
-
-      # Cache npm
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install dependencies
-        run: npm ci
-
-      # Download Allure results từ job Cypress
-      - name: Download Allure results
+      - name: Download allure results
         uses: actions/download-artifact@v4
         with:
           name: allure-results
           path: allure-results
 
+      # Lấy history từ gh-pages (BONUS #1)
+      - name: Load Allure history
+        run: |
+          git fetch origin gh-pages || true
+          git checkout origin/gh-pages -- history || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Generate Allure report
         run: npm run allure:generate
 
-      - name: Upload Allure report
-        uses: actions/upload-artifact@v4
+      # Deploy report lên GitHub Pages (BONUS #2)
+      - name: Deploy Allure report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: allure-report
-          path: allure-report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+          destination_dir: latest
