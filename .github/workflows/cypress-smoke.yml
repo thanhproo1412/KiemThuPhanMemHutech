@@ -1,4 +1,4 @@
-name: Cypress Tests + Allure Report
+name: Automation test - Cypress Smoke suite (Allure)
 
 on:
   workflow_dispatch:

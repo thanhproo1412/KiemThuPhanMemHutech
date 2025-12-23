@@ -1,10 +1,10 @@
-name: Cypress Tests + Allure Report
+name: Automation test - Cypress Regression suite (Allure)
 
 on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # Required for gh-pages deploy
+  contents: write # Required for gh-pages deploy
 
 jobs:
   # =================================================
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [1, 2]   # 2 runners, Cypress will split specs
+        runner: [1, 2] # 2 runners, Cypress will split specs
 
     steps:
       - name: Checkout repository
