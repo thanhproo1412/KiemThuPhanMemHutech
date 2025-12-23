@@ -34,19 +34,20 @@ jobs:
           record: true
           parallel: true
           ci-build-id: ${{ github.run_id }}
+          group: container-${{ matrix.containers }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-      # Lưu allure-results để job sau dùng
+      # 🔥 Mỗi container upload artifact RIÊNG
       - name: Upload allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
+          name: allure-results-${{ matrix.containers }}
           path: allure-results
 
   # -------------------------------------------------
-  # JOB 2: GENERATE + PUBLISH ALLURE REPORT
+  # JOB 2: GENERATE + DEPLOY ALLURE REPORT
   # -------------------------------------------------
   generate-allure:
     needs: cypress-run
@@ -57,13 +58,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download allure results
+      # ⬇️ Download TẤT CẢ allure-results
+      - name: Download all allure results
         uses: actions/download-artifact@v4
         with:
-          name: allure-results
           path: allure-results
 
-      # Lấy history từ gh-pages (BONUS #1)
+      # Gộp các folder allure-results-* lại
+      - name: Merge allure results
+        run: |
+          mkdir -p merged-results
+          find allure-results -type f -exec cp {} merged-results \;
+          rm -rf allure-results
+          mv merged-results allure-results
+
+      # Load history (BONUS)
       - name: Load Allure history
         run: |
           git fetch origin gh-pages || true
@@ -80,7 +89,6 @@ jobs:
       - name: Generate Allure report
         run: npm run allure:generate
 
-      # Deploy report lên GitHub Pages (BONUS #2)
       - name: Deploy Allure report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
