@@ -1,0 +1,129 @@
+name: Cypress Smoke Tests (QA)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write   # Required for gh-pages deploy
+
+jobs:
+  # =================================================
+  # JOB 1: RUN CYPRESS TESTS (PARALLEL - NO DUPLICATE)
+  # =================================================
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [1]   # 2 runners, Cypress Cloud splits specs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests (parallel)
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run cypress:run:qa-smoke
+          record: true
+          parallel: true
+          ci-build-id: ${{ github.run_id }}
+          group: github-actions
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.runner }}
+          path: allure-results
+
+  # =================================================
+  # JOB 2: GENERATE & DEPLOY ALLURE REPORT
+  # =================================================
+  generate-allure:
+    needs: cypress-run
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all Allure artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: allure-results
+
+      - name: Merge Allure results
+        run: |
+          mkdir -p merged-results
+          for dir in allure-results/*; do
+            cp -r "$dir"/* merged-results/ || true
+          done
+          rm -rf allure-results
+          mv merged-results allure-results
+
+      # 🔁 Load previous history for trend
+      - name: Load previous Allure history
+        run: |
+          git fetch origin gh-pages || true
+          git checkout origin/gh-pages -- history || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Allure report
+        run: npm run allure:generate
+
+      # ---------------------------
+      # Deploy LATEST report
+      # ---------------------------
+      - name: Deploy Allure report (latest)
+        uses: peaceiris/actions-gh-pages@v3.9.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+          destination_dir: latest
+
+      # ---------------------------
+      # Deploy report by RUN ID
+      # ---------------------------
+      - name: Deploy Allure report (by run id)
+        uses: peaceiris/actions-gh-pages@v3.9.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+          destination_dir: run-${{ github.run_id }}
+
+      # ---------------------------
+      # Show clickable links
+      # ---------------------------
+      - name: Show Allure report links
+        run: |
+          echo "===================================="
+          echo "✅ Allure Report URLs"
+          echo ""
+          echo "🔹 Latest:"
+          echo "https://thanhproo1412.github.io/KiemThuPhanMemHutech/latest/"
+          echo ""
+          echo "🔹 This run:"
+          echo "https://thanhproo1412.github.io/KiemThuPhanMemHutech/run-${GITHUB_RUN_ID}/"
+          echo "===================================="

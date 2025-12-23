@@ -1,10 +1,10 @@
-name: Automation test - Cypress Smoke suite (Allure)
+name: Cypress Regression Tests (QA)
 
 on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # Required for gh-pages deploy
+  contents: write # Required for gh-pages deploy
 
 jobs:
   # =================================================
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [1]   # 2 runners, Cypress Cloud splits specs
+        runner: [1, 2] # 2 runners, Cypress will split specs
 
     steps:
       - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
       - name: Run Cypress tests (parallel)
         uses: cypress-io/github-action@v6
         with:
-          command: npm run cypress:run:qa-smoke
+          command: npm run cypress:run:qa
           record: true
           parallel: true
           ci-build-id: ${{ github.run_id }}
@@ -74,7 +74,6 @@ jobs:
           rm -rf allure-results
           mv merged-results allure-results
 
-      # 🔁 Load previous history for trend
       - name: Load previous Allure history
         run: |
           git fetch origin gh-pages || true
@@ -112,18 +111,3 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-report
           destination_dir: run-${{ github.run_id }}
-
-      # ---------------------------
-      # Show clickable links
-      # ---------------------------
-      - name: Show Allure report links
-        run: |
-          echo "===================================="
-          echo "✅ Allure Report URLs"
-          echo ""
-          echo "🔹 Latest:"
-          echo "https://thanhproo1412.github.io/KiemThuPhanMemHutech/latest/"
-          echo ""
-          echo "🔹 This run:"
-          echo "https://thanhproo1412.github.io/KiemThuPhanMemHutech/run-${GITHUB_RUN_ID}/"
-          echo "===================================="
