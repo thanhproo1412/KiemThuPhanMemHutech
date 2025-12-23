@@ -6,10 +6,11 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
-        containers: [1, 2]   # 2 workers chạy song song
+        containers: [1, 2]   # 2 workers song song
 
     steps:
       - name: Checkout repository
@@ -23,14 +24,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests (parallel)
-        run: npm run cypress:run:qa -- --record --parallel --ci-build-id ${{ github.run_id }}
+      - name: Run Cypress tests (parallel + record)
+        uses: cypress-io/github-action@v6
+        with:
+          command: npm run cypress:run:qa
+          record: true
+          parallel: true
+          ci-build-id: ${{ github.run_id }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
-
   # ---------------------------------------
-  # Job tổng hợp báo cáo (chạy sau tất cả worker)
+  # Job tổng hợp báo cáo Allure
   # ---------------------------------------
   generate-allure:
     needs: cypress-run
@@ -39,6 +44,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
       - name: Install dependencies
         run: npm ci
