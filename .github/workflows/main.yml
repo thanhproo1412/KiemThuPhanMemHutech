@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ---------------------------------------
+  # Job chạy Cypress song song
+  # ---------------------------------------
   cypress-run:
     runs-on: ubuntu-latest
 
@@ -21,6 +24,15 @@ jobs:
         with:
           node-version: "20"
 
+      # Cache npm để CI chạy nhanh hơn
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm ci
 
@@ -33,12 +45,22 @@ jobs:
           ci-build-id: ${{ github.run_id }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_ENV: qa
+
+      # Upload Allure results (dù test PASS hay FAIL)
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
 
   # ---------------------------------------
   # Job tổng hợp báo cáo Allure
   # ---------------------------------------
   generate-allure:
     needs: cypress-run
+    if: always()
     runs-on: ubuntu-latest
 
     steps:
@@ -50,8 +72,24 @@ jobs:
         with:
           node-version: "20"
 
+      # Cache npm
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm ci
+
+      # Download Allure results từ job Cypress
+      - name: Download Allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
 
       - name: Generate Allure report
         run: npm run allure:generate
