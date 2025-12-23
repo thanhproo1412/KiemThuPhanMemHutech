@@ -8,6 +8,7 @@ const env = (process.env.ENV || 'qa') as keyof typeof envConfig;
 const configForEnv = envConfig[env];
 
 export default defineConfig({
+  projectId: "89fqzh",
   e2e: {
     baseUrl: configForEnv.baseUrl,
     viewportWidth: 1920,
@@ -23,7 +24,6 @@ export default defineConfig({
         resultsDir: "allure-results",
       });
       module.exports = {
-        projectId: "89fqzh",
       }
       return config;
     },
