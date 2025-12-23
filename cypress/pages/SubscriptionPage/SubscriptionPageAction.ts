@@ -8,7 +8,8 @@ export default class SubscriptionPageAction {
     }
 
     scrollToFooter() {
-        cy.scrollTo('bottom');
+        // Scroll the footer subscription section into view instead of scrolling the window
+        cy.get('.footer-widget').scrollIntoView({ duration: 500 });
     }
 
     verifySubscriptionHeadingVisible() {
