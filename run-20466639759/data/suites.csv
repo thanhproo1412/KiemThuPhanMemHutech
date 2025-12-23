@@ -1,6 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","5385","Should login and delete user successfully","Login Flow Test","Tue Dec 23 16:55:15 UTC 2025","passed","Tue Dec 23 16:55:20 UTC 2025","","","",""
-"Validates the entire flow of submitting the Contact Us form, including file upload, success message verification, and navigation back to the Home Page.","5294","Should submit Contact Us form successfully and return to home page","Contact Us Flow Test","Tue Dec 23 16:55:22 UTC 2025","passed","Tue Dec 23 16:55:27 UTC 2025","","","",""
-"","3361","Should add products to cart and verify details","TC_012 – Add Products in Cart","Tue Dec 23 16:55:33 UTC 2025","passed","Tue Dec 23 16:55:37 UTC 2025","","","",""
-"Validates user registration followed by account deletion","17333","Should register while checkout and place order successfully","TC_014 – Place Order: Register while Checkout","Tue Dec 23 16:55:38 UTC 2025","passed","Tue Dec 23 16:55:56 UTC 2025","","","",""
-"","2910","Should search a product and verify search results","TC_009 – Search Product Functionality","Tue Dec 23 16:55:29 UTC 2025","passed","Tue Dec 23 16:55:32 UTC 2025","","","",""
