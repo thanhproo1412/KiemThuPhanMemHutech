@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   # =================================================
-  # JOB 1: RUN CYPRESS TESTS (PARALLEL - NO DUPLICATE)
+  # JOB 1: RUN CYPRESS TESTS
   # =================================================
   cypress-run:
     runs-on: ubuntu-latest
@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [1]   # 2 runners, Cypress Cloud splits specs
+        runner: [1]
 
     steps:
       - name: Checkout repository
@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests (parallel)
+      - name: Run Cypress tests (smoke)
         uses: cypress-io/github-action@v6
         with:
           command: npm run cypress:run:qa-smoke
@@ -49,7 +49,7 @@ jobs:
           path: allure-results
 
   # =================================================
-  # JOB 2: GENERATE & DEPLOY ALLURE REPORT
+  # JOB 2: GENERATE & DEPLOY ALLURE REPORT (SINGLE DEPLOY)
   # =================================================
   generate-allure:
     needs: cypress-run
@@ -60,7 +60,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download all Allure artifacts
+      - name: Download Allure artifacts
         uses: actions/download-artifact@v4
         with:
           path: allure-results
@@ -91,31 +91,30 @@ jobs:
       - name: Generate Allure report
         run: npm run allure:generate
 
-      # ---------------------------
-      # Deploy LATEST report
-      # ---------------------------
-      - name: Deploy Allure report (latest)
+      # =================================================
+      # PREPARE SINGLE PUBLISH DIRECTORY
+      # =================================================
+      - name: Prepare publish directory
+        run: |
+          mkdir -p publish/latest
+          mkdir -p publish/run-${{ github.run_id }}
+
+          cp -r allure-report/* publish/latest/
+          cp -r allure-report/* publish/run-${{ github.run_id }}/
+
+      # =================================================
+      # SINGLE DEPLOY TO GITHUB PAGES
+      # =================================================
+      - name: Deploy Allure report (single deploy)
         uses: peaceiris/actions-gh-pages@v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-report
-          destination_dir: latest
+          publish_dir: publish
 
-      # ---------------------------
-      # Deploy report by RUN ID
-      # ---------------------------
-      - name: Deploy Allure report (by run id)
-        uses: peaceiris/actions-gh-pages@v3.9.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-report
-          destination_dir: run-${{ github.run_id }}
-
-      # ---------------------------
-      # Show clickable links
-      # ---------------------------
+      # =================================================
+      # SHOW LINKS
+      # =================================================
       - name: Show Allure report links
         run: |
           echo "===================================="
