@@ -27,7 +27,10 @@ export default defineConfig({
 
       return config;
     },
-    specPattern: 'cypress/e2e/**/*.cy.{js,ts,jsx,tsx}',
+    specPattern: [
+      'cypress/e2e/**/*.cy.{js,ts,jsx,tsx}',
+      'cypress/api/**/*.ts'
+    ],
     supportFile: 'cypress/support/e2e.ts'
   },
 

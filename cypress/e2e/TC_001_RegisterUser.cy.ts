@@ -23,10 +23,10 @@ describe('Registration Flow Test', () => {
       cy.register(userData as unknown as UserDataType).then(email => cy.log('Registered email: ' + email));
     });
 
-    // allure.step('Delete account', async () => {
-    //   navBarAction.clickNavItem('deleteAccount');
-    //   accountDeletePageAction.verifyAccountDeleteVisible();
-    //   accountDeletePageAction.clickContinueButton();
-    // });
+    allure.step('Delete account', async () => {
+      navBarAction.clickNavItem('deleteAccount');
+      accountDeletePageAction.verifyAccountDeleteVisible();
+      accountDeletePageAction.clickContinueButton();
+    });
   });
 });
