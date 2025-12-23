@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [1, 2]   # 2 runners, Cypress Cloud splits specs
+        runner: [1]   # 2 runners, Cypress Cloud splits specs
 
     steps:
       - name: Checkout repository
