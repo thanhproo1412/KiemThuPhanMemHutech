@@ -1,4 +1,4 @@
-name: Cypress Smoke Tests (QA)
+name: Cypress Regression Tests (QA)
 
 on:
   workflow_dispatch:

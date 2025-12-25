@@ -1,4 +1,4 @@
-name: Cypress Smoke Tests (QA)
+name: Cypress Smoke Tests (UAT)
 
 on:
   workflow_dispatch:
