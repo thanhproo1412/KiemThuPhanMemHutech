@@ -10,6 +10,8 @@ export default defineConfig({
   projectId: "89fqzh",
   e2e: {
     baseUrl: configForEnv.baseUrl,
+    // Increase page load timeout to tolerate slow external resources
+    pageLoadTimeout: 120000,
     viewportWidth: 1920,
     viewportHeight: 1080,
     setupNodeEvents(on, config) {
