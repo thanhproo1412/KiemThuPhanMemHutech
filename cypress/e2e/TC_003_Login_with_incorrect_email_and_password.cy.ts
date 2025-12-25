@@ -2,7 +2,7 @@ import NavBarAction from '../pages/NavBar/NavBarAction';
 import LoginPageAction from '../pages/LoginPage/LoginPageAction';
 import * as allure from 'allure-js-commons';
 
-describe('Login Flow Test - Negative', () => {
+describe('TC_003 - Login Flow Test - Negative', () => {
   const navBarAction = new NavBarAction();
   const loginPageAction = new LoginPageAction();
 

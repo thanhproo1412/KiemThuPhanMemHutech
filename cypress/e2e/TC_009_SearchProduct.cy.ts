@@ -1,8 +1,9 @@
 import HomePageAction from "../pages/HomePage/HomePageAction";
 import NavBarAction from "../pages/NavBar/NavBarAction";
 import ProductsPageAction from "../pages/ProductsPage/ProductsPageAction";
+import * as allure from 'allure-js-commons';
 
-describe("TC_009 – Search Product Functionality", () => {
+describe("TC_009 - Search Product Functionality", () => {
 
     const homePage = new HomePageAction();
     const navBarAction = new NavBarAction();
@@ -14,22 +15,34 @@ describe("TC_009 – Search Product Functionality", () => {
 
     it("Should search a product and verify search results", { tags: '@smoke' }, () => {
 
-        // 3. Verify Home Page visible
-        homePage.verifyHomePageVisible();
+        allure.epic('E-commerce Flow');
+        allure.feature('Search');
+        allure.story('Search products and validate results');
+        allure.description('Search for a product by name and verify the results page and items');
+        allure.tags('search', 'products', 'smoke');
 
-        // 4. Click Products
-        navBarAction.clickNavItem("products");
+        allure.step('Verify Home Page is visible', () => {
+            homePage.verifyHomePageVisible();
+        });
 
-        // 5. Verify All Products page visible
-        productsAction.verifyAllProductsPageVisible();
+        allure.step('Navigate to Products page', () => {
+            navBarAction.clickNavItem("products");
+        });
 
-        // 6. Enter product name and click Search
-        productsAction.searchProduct("dress");
+        allure.step('Verify All Products page is visible', () => {
+            productsAction.verifyAllProductsPageVisible();
+        });
 
-        // 7. Verify SEARCHED PRODUCTS title visible
-        productsAction.verifySearchTitleVisible();
+        allure.step('Search for product "dress"', () => {
+            productsAction.searchProduct("dress");
+        });
 
-        // 8. Verify searched products are visible
-        productsAction.verifySearchedProductsVisible();
+        allure.step('Verify SEARCHED PRODUCTS title is visible', () => {
+            productsAction.verifySearchTitleVisible();
+        });
+
+        allure.step('Verify searched products are displayed', () => {
+            productsAction.verifySearchedProductsVisible();
+        });
     });
 });

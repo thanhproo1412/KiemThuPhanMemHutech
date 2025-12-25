@@ -8,7 +8,7 @@ const existingUserData = {
   email: 'existing_user@yopmail.com',
 };
 
-describe('Registration Flow Test', () => {
+describe('TC_005 - Registration Flow Test', () => {
   const homePageAction = new HomePageAction();
   const navBarAction = new NavBarAction();
   const loginPageAction = new LoginPageAction();

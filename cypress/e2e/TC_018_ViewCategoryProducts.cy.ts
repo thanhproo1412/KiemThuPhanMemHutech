@@ -1,7 +1,7 @@
 import HomePageAction from '../pages/HomePage/HomePageAction';
 import * as allure from "allure-js-commons";
 
-describe('TC_018 – View Category Products', () => {
+describe('TC_018 - View Category Products', () => {
     const homePage = new HomePageAction();
 
     beforeEach(() => cy.visit('/'));

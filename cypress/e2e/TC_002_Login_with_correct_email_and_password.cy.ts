@@ -2,7 +2,7 @@
 import NavBarAction from '../pages/NavBar/NavBarAction';
 import * as allure from 'allure-js-commons';
 
-describe('Login Flow Test', () => {
+describe('TC_002 - Login Flow Test', () => {
   const navBarAction = new NavBarAction();
 
   beforeEach(() => cy.visit('/'));

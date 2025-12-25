@@ -3,7 +3,7 @@ import NavBarAction from '../pages/NavBar/NavBarAction';
 import TestCasesPageAction from '../pages/TestCasesPage/TestCasesPageAction';
 import * as allure from "allure-js-commons";
 
-describe('Test Case 007 - Navigate to Test Cases Page', () => {
+describe('TC_007 - Navigate to Test Cases Page', () => {
     const homePageAction = new HomePageAction();
     const navBarAction = new NavBarAction();
     const testCasesAction = new TestCasesPageAction();

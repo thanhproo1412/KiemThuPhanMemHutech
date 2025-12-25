@@ -2,7 +2,7 @@ import HomePageAction from '../pages/HomePage/HomePageAction';
 import NavBarAction from '../pages/NavBar/NavBarAction';
 import * as allure from 'allure-js-commons';
 
-describe('TC_019 – View & Cart Brand Products', () => {
+describe('TC_019 - View & Cart Brand Products', () => {
     const homePageAction = new HomePageAction();
     const navBarAction = new NavBarAction();
 

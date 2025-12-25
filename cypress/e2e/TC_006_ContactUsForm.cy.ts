@@ -4,7 +4,7 @@ import ContactUsPageAction from '../pages/ContactUsPage/ContactUsPageAction';
 import contactData from '../fixtures/TC_006_ContactUsForm/TC_006_ContactUsForm.json';
 import * as allure from "allure-js-commons";
 
-describe('Contact Us Flow Test', { tags: ['@smoke', '@critical'] }, () => {
+describe('TC_006 - Contact Us Flow Test', { tags: ['@smoke', '@critical'] }, () => {
     const homePageAction = new HomePageAction();
     const navBarAction = new NavBarAction();
     const contactUsPageAction = new ContactUsPageAction();

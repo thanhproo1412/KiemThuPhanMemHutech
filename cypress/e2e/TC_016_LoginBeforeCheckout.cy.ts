@@ -9,7 +9,7 @@ import userData from '../fixtures/TC_016_LoginBeforeCheckout/TC_016_LoginBeforeC
 import type { UserDataType } from '../types/UserDataType';
 import * as allure from 'allure-js-commons';
 
-describe('TC_016 – Place Order: Login before Checkout', () => {
+describe('TC_016 - Place Order: Login before Checkout', () => {
     const homePage = new HomePageAction();
     const navBarAction = new NavBarAction();
     const accountDeleteAction = new AccountDeletePageAction();

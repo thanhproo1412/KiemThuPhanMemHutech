@@ -10,7 +10,7 @@ import userData from '../fixtures/TC_015_RegisterBeforeCheckout/TC_015_RegisterB
 import type { UserDataType } from '../types/UserDataType';
 import * as allure from 'allure-js-commons';
 
-describe('TC_015 – Place Order: Register before Checkout', () => {
+describe('TC_015 - Place Order: Register before Checkout', () => {
     const homePage = new HomePageAction();
     const navBarAction = new NavBarAction();
     const accountCreatedAction = new AccountCreatedPageAction();
